@@ -67,14 +67,14 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 /**-----------------------------------------------
- * @desc     Get All Users Profile
- * @route   /api/users/profile
+ * @desc     Get All Users Count
+ * @route   /api/users/count
  * @method  GET
  * @access  private (only ADMIN)
  ------------------------------------------------*/
 const usersCount = asyncHandler(async (req, res) => {
-  const users = await User.find({}).select('-password');
-  res.status(200).json(users);
+  const count = await User.countDocuments();
+  res.status(200).json(count);
 });
 
-export { getAllUsers, getUserProfile, updateUserProfile };
+export { getAllUsers, getUserProfile, updateUserProfile, usersCount };

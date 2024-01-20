@@ -27,11 +27,13 @@ const protect = asyncHandler(async (req, res, next) => {
 
 // User must be an admin
 const admin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
-    next();
-  } else {
-    res.status(401).json({ message: 'Not authorized as an admin' });
-  }
+  protect(req, res, () => {
+    if (req.user.isAdmin) {
+      next();
+    } else {
+      return res.status(403).json({ message: 'not allowed, only admin' });
+    }
+  });
 };
 
 // Only User Himself
@@ -47,4 +49,17 @@ const onlyUser = (req, res, next) => {
   });
 };
 
-export { protect, admin, onlyUser };
+// Verify Token & Authorization
+const verifyTokenAndAuthorization = (req, res, next) => {
+  protect(req, res, () => {
+    if (req.user.id === req.params.id || req.user.isAdmin) {
+      next();
+    } else {
+      return res
+        .status(403)
+        .json({ message: 'not allowed, only user himself or admin' });
+    }
+  });
+};
+
+export { protect, admin, onlyUser, verifyTokenAndAuthorization };

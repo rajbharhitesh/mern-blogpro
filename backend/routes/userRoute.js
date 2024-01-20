@@ -9,7 +9,7 @@ import {
 import { admin, onlyUser, protect } from '../middlewares/authMiddleware.js';
 
 // /api/users/profile
-router.route('/profile').get(protect, admin, getAllUsers);
+router.route('/profile').get(admin, getAllUsers);
 
 // /api/users/profile/:id
 router

@@ -1,6 +1,10 @@
 import asyncHandler from '../middlewares/asyncHandler.js';
 import generateToken from '../utils/generateToken.js';
-import { User, validateRegisterUser } from '../models/userModel.js';
+import {
+  User,
+  validateLoginUser,
+  validateRegisterUser,
+} from '../models/userModel.js';
 
 /**-----------------------------------------------
  * @desc    Register New User
@@ -43,4 +47,36 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser };
+/**-----------------------------------------------
+ * @desc    Login User
+ * @route   /api/auth/login
+ * @method  POST
+ * @access  public
+ ------------------------------------------------*/
+const loginUser = asyncHandler(async (req, res) => {
+  const { error } = validateLoginUser(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id);
+
+    res.json({
+      _id: user._id,
+      username: user.username,
+      profilePhoto: user.profilePhoto,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(400).json({ message: 'invalid email or password' });
+  }
+});
+
+export { registerUser, loginUser };

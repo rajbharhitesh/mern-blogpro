@@ -55,6 +55,15 @@ function validateRegisterUser(obj) {
   return schema.validate(obj);
 }
 
+// Validate Register User
+function validateLoginUser(obj) {
+  const schema = Joi.object({
+    email: Joi.string().trim().min(5).max(100).required().email(),
+    password: Joi.string().trim().min(8).required(),
+  });
+  return schema.validate(obj);
+}
+
 // Encrypt password using bcrypt
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
@@ -65,6 +74,11 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+// Match user entered password to hashed password in database
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 const User = mongoose.model('User', userSchema);
 
-export { User, validateRegisterUser };
+export { User, validateRegisterUser, validateLoginUser };

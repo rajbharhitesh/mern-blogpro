@@ -34,4 +34,17 @@ const admin = (req, res, next) => {
   }
 };
 
-export { protect, admin };
+// Only User Himself
+const onlyUser = (req, res, next) => {
+  protect(req, res, () => {
+    if (req.user.id === req.params.id) {
+      next();
+    } else {
+      return res
+        .status(403)
+        .json({ message: 'not allowed, only user himself' });
+    }
+  });
+};
+
+export { protect, admin, onlyUser };

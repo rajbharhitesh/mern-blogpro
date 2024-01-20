@@ -55,11 +55,21 @@ function validateRegisterUser(obj) {
   return schema.validate(obj);
 }
 
-// Validate Register User
+// Validate login User
 function validateLoginUser(obj) {
   const schema = Joi.object({
     email: Joi.string().trim().min(5).max(100).required().email(),
     password: Joi.string().trim().min(8).required(),
+  });
+  return schema.validate(obj);
+}
+
+// Validate update User
+function validateUpdateUser(obj) {
+  const schema = Joi.object({
+    email: Joi.string().trim().min(5).max(100),
+    password: Joi.string().trim().min(8),
+    bio: Joi.string(),
   });
   return schema.validate(obj);
 }
@@ -81,4 +91,4 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 const User = mongoose.model('User', userSchema);
 
-export { User, validateRegisterUser, validateLoginUser };
+export { User, validateRegisterUser, validateLoginUser, validateUpdateUser };

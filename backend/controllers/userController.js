@@ -77,4 +77,21 @@ const usersCount = asyncHandler(async (req, res) => {
   res.status(200).json(count);
 });
 
-export { getAllUsers, getUserProfile, updateUserProfile, usersCount };
+/**-----------------------------------------------
+ * @desc     Upload profile photo
+ * @route   /api/users/profile/profile-photo-upload
+ * @method  POST
+ * @access  private (only logged in user)
+ ------------------------------------------------*/
+const profilePhotoUploader = asyncHandler(async (req, res) => {
+  console.log(req.file);
+  res.send('photo uploaded');
+});
+
+export {
+  getAllUsers,
+  getUserProfile,
+  updateUserProfile,
+  usersCount,
+  profilePhotoUploader,
+};

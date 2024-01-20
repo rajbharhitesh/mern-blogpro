@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
+import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 
 dotenv.config();
 
@@ -22,6 +23,9 @@ connectDB();
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(

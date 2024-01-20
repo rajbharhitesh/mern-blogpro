@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import Joi from 'joi';
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema(
   {
@@ -43,6 +45,26 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// Validate Register User
+function validateRegisterUser(obj) {
+  const schema = Joi.object({
+    username: Joi.string().trim().min(2).max(100).required(),
+    email: Joi.string().trim().min(5).max(100).required().email(),
+    password: Joi.string().trim().min(8).required(),
+  });
+  return schema.validate(obj);
+}
+
+// Encrypt password using bcrypt
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
 const User = mongoose.model('User', userSchema);
 
-export default User;
+export { User, validateRegisterUser };

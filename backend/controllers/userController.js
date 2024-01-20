@@ -12,4 +12,20 @@ const getAllUsers = asyncHandler(async (req, res) => {
   res.status(200).json(users);
 });
 
-export { getAllUsers };
+/**-----------------------------------------------
+ * @desc     Get  User Profile
+ * @route   /api/users/profile/:id
+ * @method  GET
+ * @access  public
+ ------------------------------------------------*/
+const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return res.status(404).json({ message: 'user not found' });
+  }
+
+  res.status(200).json(user);
+});
+
+export { getAllUsers, getUserProfile };

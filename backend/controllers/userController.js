@@ -84,8 +84,10 @@ const usersCount = asyncHandler(async (req, res) => {
  * @access  private (only logged in user)
  ------------------------------------------------*/
 const profilePhotoUploader = asyncHandler(async (req, res) => {
-  console.log(req.file);
-  res.send('photo uploaded');
+  // 1. Validation
+  if (!req.file) {
+    return res.status(400).json({ message: 'no file provided' });
+  }
 });
 
 export {

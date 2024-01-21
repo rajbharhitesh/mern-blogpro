@@ -9,6 +9,7 @@ import {
   getAllPosts,
   getPostCount,
   getSinglePost,
+  toggleLike,
   updatePost,
   updatePostImage,
 } from '../controllers/postController.js';
@@ -33,5 +34,8 @@ router
 router
   .route('/update-image/:id')
   .put(validateObjectId, protect, photoUpload.single('image'), updatePostImage);
+
+// /api/posts/like/:id
+router.route('/like/:id').put(validateObjectId, protect, toggleLike);
 
 export default router;

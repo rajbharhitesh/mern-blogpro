@@ -15,7 +15,7 @@ const postSchema = new mongoose.Schema(
       required: true,
       trim: true,
       minlength: 2,
-      maxlength: 100,
+      maxlength: 500,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -63,6 +63,6 @@ function validateUpdatePost(obj) {
   return schema.validate(obj);
 }
 
-const Post = mongoose.model('Post', userSchema);
+const Post = mongoose.model('Post', postSchema);
 
 export { Post, validateCreatePost, validateUpdatePost };

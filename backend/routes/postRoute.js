@@ -10,6 +10,7 @@ import {
   getPostCount,
   getSinglePost,
   updatePost,
+  updatePostImage,
 } from '../controllers/postController.js';
 
 // /api/posts
@@ -27,5 +28,10 @@ router
   .get(validateObjectId, getSinglePost)
   .delete(validateObjectId, protect, deletePost)
   .put(validateObjectId, protect, updatePost);
+
+// /api/posts/update-image/:id
+router
+  .route('/update-image/:id')
+  .put(validateObjectId, protect, photoUpload.single('image'), updatePostImage);
 
 export default router;

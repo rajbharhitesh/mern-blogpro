@@ -184,6 +184,60 @@ const updatePost = asyncHandler(async (req, res) => {
   res.status(200).json(updatedPost);
 });
 
+/**-----------------------------------------------
+ * @desc     update post image
+ * @route   /api/posts/upload-image/:id
+ * @method  PUT
+ * @access  private  (only owner of the user)
+ ------------------------------------------------*/
+const updatePostImage = asyncHandler(async (req, res) => {
+  //  Validation
+  if (!req.file) {
+    return res.status(400).json({ message: 'no image provided' });
+  }
+
+  //  Get the post from DB and check if post exist
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(404).json({ message: 'post not found' });
+  }
+
+  //  check if this post belong to logged in user
+  if (req.user.id !== post.user.toString()) {
+    return res
+      .status(403)
+      .json({ message: 'access denied, you are not allowed' });
+  }
+
+  //  Delete the old image
+  await cloudinaryRemoveImage(post.image.publicId);
+
+  //  Upload new photo
+  const __dirname = path.resolve();
+  const imagePath = path.join(__dirname, `/images/${req.file.filename}`);
+  const result = await cloudinaryUploadImage(imagePath);
+
+  //  Update the image field in the db
+  const updatedPost = await Post.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: {
+        image: {
+          url: result.secure_url,
+          publicId: result.public_id,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  //  Send response to the client
+  res.status(200).json(updatedPost);
+
+  // Remove image from the server
+  fs.unlinkSync(imagePath);
+});
+
 export {
   createPost,
   getAllPosts,
@@ -191,4 +245,5 @@ export {
   getPostCount,
   deletePost,
   updatePost,
+  updatePostImage,
 };

@@ -6,6 +6,7 @@ import {
   validateCreatePost,
   validateUpdatePost,
 } from '../models/postModel.js';
+import { Comment } from '../models/commentModel.js';
 import {
   cloudinaryRemoveImage,
   cloudinaryUploadImage,
@@ -131,6 +132,9 @@ const deletePost = asyncHandler(async (req, res) => {
   if (req.user.isAdmin || req.user.id === post.user.toString()) {
     await Post.findByIdAndDelete(req.params.id);
     await cloudinaryRemoveImage(post.image.publicId);
+
+    // Delete all comments that belong to this post
+    await Comment.deleteMany({ postId: post._id });
 
     res.status(200).json({
       message: 'post has been deleted successfully',

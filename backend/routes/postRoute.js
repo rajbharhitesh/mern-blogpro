@@ -9,6 +9,7 @@ import {
   getAllPosts,
   getPostCount,
   getSinglePost,
+  updatePost,
 } from '../controllers/postController.js';
 
 // /api/posts
@@ -24,6 +25,7 @@ router.route('/count').get(getPostCount);
 router
   .route('/:id')
   .get(validateObjectId, getSinglePost)
-  .delete(validateObjectId, protect, deletePost);
+  .delete(validateObjectId, protect, deletePost)
+  .put(validateObjectId, protect, updatePost);
 
 export default router;

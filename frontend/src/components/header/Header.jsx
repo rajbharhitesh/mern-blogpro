@@ -1,16 +1,17 @@
+import { useState } from 'react';
+import HeaderLeft from './HeaderLeft';
+import Navbar from './Navbar';
+import HeaderRight from './HeaderRight';
+import './Header.css';
+
 const Header = () => {
+  const [toggle, setToggle] = useState(false);
+
   return (
     <header className="header">
-      <div className="header-left">
-        <div className="header-logo">
-          <strong>BLOG</strong>
-          <i className="bi bi-pencil"></i>
-        </div>
-        <div className="header-menu">
-          <i className="bi bi-list"></i>
-        </div>
-      </div>
-      <div className="header-right"></div>
+      <HeaderLeft toggle={toggle} setToggle={setToggle} />
+      <Navbar toggle={toggle} setToggle={setToggle} />
+      <HeaderRight />
     </header>
   );
 };

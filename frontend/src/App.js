@@ -11,6 +11,10 @@ import Footer from './components/footer/Footer';
 import PostDetailsPage from './pages/post/postDetails/PostDetailsPage';
 import CategoryPage from './pages/category/CategoryPage';
 import ProfilePage from './pages/profile/ProfilePage';
+import UserTablePage from './pages/admin/UserTablePage';
+import PostTablePage from './pages/admin/PostTablePage';
+import CategoriesTablePage from './pages/admin/CategoriesTablePage';
+import CommentsTablePage from './pages/admin/CommentsTablePage';
 
 const App = () => {
   return (
@@ -31,7 +35,13 @@ const App = () => {
             <Route path="categories/:category" element={<CategoryPage />} />
           </Route>
 
-          <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin-dashboard">
+            <Route index element={<AdminDashboardPage />} />
+            <Route path="users-table" element={<UserTablePage />} />
+            <Route path="posts-table" element={<PostTablePage />} />
+            <Route path="categories-table" element={<CategoriesTablePage />} />
+            <Route path="comments-table" element={<CommentsTablePage />} />
+          </Route>
         </Routes>
         <Footer />
       </Router>

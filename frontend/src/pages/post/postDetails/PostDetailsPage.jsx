@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { posts } from '../../../dummyData';
 import { toast } from 'react-hot-toast';
+import swal from 'sweetalert';
+import AddComment from '../../../components/comment/addComment/AddComment';
+import CommentLists from '../../../components/comment/commentLists/CommentLists';
 import './PostDetails.css';
 
 const PostDetailsPage = () => {
@@ -20,6 +23,20 @@ const PostDetailsPage = () => {
     e.preventDefault();
 
     if (!file) return toast.error('there is no file!');
+  };
+
+  // delete post handler
+  const deletePostHandler = () => {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this post!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then((isOk) => {
+      if (isOk) {
+      }
+    });
   };
 
   return (
@@ -82,13 +99,12 @@ const PostDetailsPage = () => {
 
         <div>
           <i className="bi bi-pencil-square"></i>
-          <i className="bi bi-trash-fill"></i>
+          <i onClick={deletePostHandler} className="bi bi-trash-fill"></i>
         </div>
       </div>
 
-      <p className="post-details-info-write">
-        to write a comment you should login first
-      </p>
+      <AddComment />
+      <CommentLists />
     </section>
   );
 };

@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import swal from 'sweetalert';
 import AddComment from '../../../components/comment/addComment/AddComment';
 import CommentLists from '../../../components/comment/commentLists/CommentLists';
+import UpdatePostModal from './UpdatePostModal';
 import './PostDetails.css';
 
 const PostDetailsPage = () => {
@@ -13,6 +14,7 @@ const PostDetailsPage = () => {
   const post = posts.find((p) => p._id === parseInt(id));
 
   const [file, setFile] = useState(null);
+  const [updatePost, setUpdatePost] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -98,13 +100,19 @@ const PostDetailsPage = () => {
         </div>
 
         <div>
-          <i className="bi bi-pencil-square"></i>
+          <i
+            onClick={() => setUpdatePost(true)}
+            className="bi bi-pencil-square"
+          ></i>
           <i onClick={deletePostHandler} className="bi bi-trash-fill"></i>
         </div>
       </div>
 
       <AddComment />
       <CommentLists />
+      {updatePost && (
+        <UpdatePostModal setUpdatePost={setUpdatePost} post={post} />
+      )}
     </section>
   );
 };

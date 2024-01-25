@@ -1,5 +1,14 @@
+import AdminMainPage from './AdminMainPage';
+import AdminSidebarPage from './AdminSidebarPage';
+import './Admin.css';
+
 const AdminDashboardPage = () => {
-  return <div></div>;
+  return (
+    <section className="admin-dashboard">
+      <AdminSidebarPage />
+      <AdminMainPage />
+    </section>
+  );
 };
 
 export default AdminDashboardPage;

@@ -4,9 +4,11 @@ import PostList from '../../components/post/PostList';
 import './Profile.css';
 import toast from 'react-hot-toast';
 import swal from 'sweetalert';
+import UpdateProfileModal from './UpdateProfileModal';
 
 const ProfilePage = () => {
   const [file, setFile] = useState(null);
+  const [updateProfile, setUpdateProfile] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -67,7 +69,10 @@ const ProfilePage = () => {
           <span>Fri Nov 2024</span>
         </div>
 
-        <button className="profile-update-btn">
+        <button
+          onClick={() => setUpdateProfile(true)}
+          className="profile-update-btn"
+        >
           <i className="bi bi-file-person-fill"></i>
           Update Profile
         </button>
@@ -82,6 +87,9 @@ const ProfilePage = () => {
       <button onClick={deleteAccountHandler} className="delete-account-btn">
         Delete Your Account
       </button>
+      {updateProfile && (
+        <UpdateProfileModal setUpdateProfile={setUpdateProfile} />
+      )}
     </section>
   );
 };

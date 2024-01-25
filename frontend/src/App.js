@@ -9,6 +9,7 @@ import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import CreatePostPage from './pages/post/createPost/CreatePostPage';
 import Footer from './components/footer/Footer';
 import PostDetailsPage from './pages/post/postDetails/PostDetailsPage';
+import CategoryPage from './pages/category/CategoryPage';
 
 const App = () => {
   return (
@@ -20,9 +21,14 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/posts" element={<PostsPage />} />
-          <Route path="/posts/create-post" element={<CreatePostPage />} />
-          <Route path="/posts/details/:id" element={<PostDetailsPage />} />
+
+          <Route path="posts">
+            <Route index element={<PostsPage />} />
+            <Route path="create-post" element={<CreatePostPage />} />
+            <Route path="details/:id" element={<PostDetailsPage />} />
+            <Route path="categories/:category" element={<CategoryPage />} />
+          </Route>
+
           <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
         </Routes>
         <Footer />

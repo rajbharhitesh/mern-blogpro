@@ -10,6 +10,7 @@ import CreatePostPage from './pages/post/createPost/CreatePostPage';
 import Footer from './components/footer/Footer';
 import PostDetailsPage from './pages/post/postDetails/PostDetailsPage';
 import CategoryPage from './pages/category/CategoryPage';
+import ProfilePage from './pages/profile/ProfilePage';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile/:id" element={<ProfilePage />} />
 
           <Route path="posts">
             <Route index element={<PostsPage />} />
